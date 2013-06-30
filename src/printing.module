@@ -30,7 +30,7 @@ VAL INT32 scaling.INT32 IS 10000:
 VAL REAL32 scaling.REAL32 IS 10000.0:
 
 
---{{{ PROC serial.setup
+--{{{ PROC serial.begin
 --* Begins serial operations on the given board pin.
 --
 -- [@code board.pin] [@em must] be written as TX0, RX0, TX1, RX1, etc.
@@ -40,7 +40,7 @@ VAL REAL32 scaling.REAL32 IS 10000.0:
 --
 -- @param board.pin The board pin to being serial operations on.
 -- @param baud The baud rate at which to transmit serial data.
-PROC serial.setup (VAL INT board.pin, VAL INT32 baud)
+PROC serial.begin (VAL INT board.pin, VAL INT32 baud)
   VAL INT port IS board.to.serial.port (board.pin):
   serial.start (port, baud)
 :
@@ -282,7 +282,7 @@ PROC serial.write.real32 (VAL INT board.pin, VAL REAL32 n, VAL INT precision)
 --}}}
 #ENDIF
 
-#IF DEFINED (AVR.ATMEGA1280)
+#IF DEFINED ((AVR.ATMEGA1280) OR (AVR.ATMEGA2560))
 PROC serial.buffer.read (VAL INT board.pin, VAL BYTE start, end, RESULT []BYTE buffer, RESULT INT length)
   VAL INT port IS board.to.serial.port (board.pin):
   read.buffer.blocking (port, start, end, buffer, length)
